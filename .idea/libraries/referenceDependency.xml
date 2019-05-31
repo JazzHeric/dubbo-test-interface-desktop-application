@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="referenceDependency">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/main/lib/dubbo-2.5.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/main/lib/fastjson-1.2.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/main/lib/javassist-3.18.1-GA.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/main/lib/log4j-1.2.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/main/lib/netty-3.2.5.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/main/lib/slf4j-api-1.7.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/main/lib/zkclient-0.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/main/lib/zookeeper-3.4.9.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
