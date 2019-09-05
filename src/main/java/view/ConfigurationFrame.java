@@ -220,6 +220,7 @@ public class ConfigurationFrame extends javax.swing.JFrame {
 										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
 						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
+
 		jButton2.setFont(font); // NOI18N
 		jButton2.setText("Apply"); // NOI18N
 		
