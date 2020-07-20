@@ -1,6 +1,7 @@
 package service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.alibaba.dubbo.config.ApplicationConfig;
@@ -8,6 +9,7 @@ import com.alibaba.dubbo.config.ReferenceConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.rpc.service.GenericService;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import model.Config;
 import tools.StringUtils;
 
@@ -27,7 +29,7 @@ public class DubboTestService {
 		application.setRegistry(registry);
 		application.setName(config.getApplication());
 
-		ReferenceConfig<GenericService> reference = new ReferenceConfig<GenericService>();
+		ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
 		reference.setApplication(application);
 		reference.setInterface(config.getInterfaze());
 		reference.setTimeout(1000);
@@ -41,12 +43,30 @@ public class DubboTestService {
 		}
 		GenericService genericService = reference.get();
 		//TODO 基本数据类型 和 多参数调用
-		String[] parameterTypes = new String[]{config.getRequestClass()};
-		Map<String, Object> params = new HashMap<>();
-		params = JSON.parseObject(requestParams);
-		params.put("class", config.getRequestClass());
+		String[] parameterTypes = config.getRequestClass().split(";");
+
+		List<String> paramList = JSONArray.parseArray(requestParams,String.class);
+
+		Object[] objectParam = new Object[paramList.size()];
+		for(int i = 0; i < paramList.size(); i++){
+			String paramValue = paramList.get(i);
+			Map<String, Object> params = null;
+			//是否对象
+			if(paramValue.indexOf("{") > -1){
+				params = JSON.parseObject(paramValue);
+				objectParam[i] = params;
+				//params.put("class", config.getRequestClass());
+			} else if(paramValue.indexOf("[") > -1) {
+				objectParam[i] = JSON.parseArray(paramValue);
+			} else {
+				objectParam[i] = paramValue;
+			}
+
+		}
+
 		Object response = null;
-		response = genericService.$invoke(config.getMethodName(), parameterTypes, new Object[]{params});
+		response = genericService.$invoke(config.getMethodName(), parameterTypes, objectParam);
 		return response;
 	}
+
 }
