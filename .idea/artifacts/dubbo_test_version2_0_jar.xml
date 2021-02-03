@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="dubbo-test-version2.0:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/dubbo_test_version2_0_jar</output-path>
+    <root id="archive" name="dubbo-test-interface-desktop-application.jar">
+      <element id="module-output" name="dubbo-test-interface-desktop-application" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/main/lib/jfoenix-8.0.8.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/main/lib/dubbo-2.5.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/main/lib/fastjson-1.2.6.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/main/lib/javassist-3.18.1-GA.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/main/lib/log4j-1.2.8.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/main/lib/netty-3.2.5.Final.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/main/lib/slf4j-api-1.7.8.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/main/lib/zkclient-0.5.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/main/lib/zookeeper-3.4.9.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

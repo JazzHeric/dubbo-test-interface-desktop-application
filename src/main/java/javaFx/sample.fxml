@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.layout.Pane?>
+<?import com.sun.javafx.scene.control.skin.TableHeaderRow?>
+
+<Pane fx:id="root_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1000.0" style="-fx-background-color: #434a54;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javaFx.Controller">
+   <children>
+      <Pane prefHeight="271.0" prefWidth="1000.0" style="-fx-background-color: #434a54;">
+         <children>
+            <JFXTextField fx:id="zk_input" focusColor="#d1ffff" layoutX="209.0" layoutY="44.0" prefHeight="30.0" prefWidth="573.0" style="-fx-text-fill: #bee7e9;" text="" unFocusColor="#bee7e9" />
+            <Label layoutX="96.0" layoutY="39.0" prefHeight="40.0" prefWidth="107.0" style="-fx-font-size: 16px; -fx-background-color: #434a54; -fx-font-weight: bold;" text="ZooKeeper：" textFill="#d1ffff">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="92.0" layoutY="86.0" prefHeight="40.0" prefWidth="107.0" style="-fx-font-size: 16px; -fx-background-color: #434a54; -fx-font-weight: bold;" text="    Interface：" textFill="#d1ffff" />
+            <Label layoutX="99.0" layoutY="137.0" prefHeight="40.0" prefWidth="100.0" style="-fx-font-size: 16px; -fx-background-color: #434a54; -fx-font-weight: bold;" text="    Method：" textFill="#d1ffff" />
+            <Label layoutX="96.0" layoutY="184.0" prefHeight="40.0" prefWidth="100.0" style="-fx-font-size: 16px; -fx-background-color: #434a54; -fx-font-weight: bold;" text="       Group：" textFill="#d1ffff" />
+            <JFXTextField fx:id="interface_input" focusColor="#d1ffff" layoutX="209.0" layoutY="91.0" prefHeight="30.0" prefWidth="573.0" style="-fx-text-fill: #bee7e9;" text="" unFocusColor="#bee7e9" />
+            <JFXTextField fx:id="method_input" focusColor="#d1ffff" layoutX="209.0" layoutY="142.0" prefHeight="30.0" prefWidth="573.0" style="-fx-text-fill: #bee7e9;" text="" unFocusColor="#bee7e9" />
+            <JFXTextField fx:id="group_input" focusColor="#d1ffff" layoutX="209.0" layoutY="189.0" prefHeight="30.0" prefWidth="132.0" style="-fx-text-fill: #bee7e9;" text="" unFocusColor="#bee7e9" />
+            <JFXTextField fx:id="version_input" focusColor="#d1ffff" layoutX="650.0" layoutY="189.0" prefHeight="30.0" prefWidth="132.0" style="-fx-text-fill: #bee7e9;" text="" unFocusColor="#bee7e9" />
+            <Label layoutX="543.0" layoutY="183.0" prefHeight="40.0" prefWidth="100.0" style="-fx-font-size: 16px; -fx-background-color: #434a54; -fx-font-weight: bold;" text="    Version：" textFill="#d1ffff" />
+      
+            <JFXButton fx:id="zkTest" buttonType="RAISED" layoutX="847.0" layoutY="39.0" onMouseClicked="#testZkAction" prefHeight="40" prefWidth="100" style="-fx-font-size: 14px; -fx-background-color: WHITE; -fx-font-weight: bold;" text="TEST" textFill="#37bc9b" />
+            <JFXButton fx:id="loadTest" buttonType="RAISED" layoutX="847.0" layoutY="152.0" onMouseClicked="#testLoadFile" prefHeight="40" prefWidth="100" style="-fx-font-size: 14px; -fx-background-color: WHITE; -fx-font-weight: bold;" text="LOAD" textFill="#37bc9b" />
+         </children></Pane>
+      <JFXTextArea fx:id="response_data" focusColor="#ffce54" layoutX="45.0" layoutY="443.0" prefHeight="412.0" prefWidth="916.0" style="-fx-text-fill: #FFCE54; -fx-font-weight: BOLD; -fx-font-size: 16px;" text="" unFocusColor="#f6bb42" />
+      <TableView fx:id="param_table" editable="true" layoutY="268.0" onMouseClicked="#addParamAction" onMouseExited="#checkParamAction" prefHeight="150.0" prefWidth="1015.0">
+        <columns>
+          <TableColumn fx:id="paramType" editable="true" onEditCommit="#tableDataCommit" prefWidth="300.0" resizable="false" sortable="false" style="-fx-text-fill: #fc61a4;" text="Input Type" />
+          <TableColumn fx:id="paramValue" editable="true" onEditCommit="#tableDataCommit" prefWidth="712.0" resizable="false" sortable="false" style="-fx-text-fill: #fc61a4;" text="Input Parameter" />
+        </columns>
+      </TableView>
+      <Label layoutX="397.0" layoutY="856.0" opacity="0.1" prefHeight="30.0" prefWidth="229.0" style="-fx-font-size: 12px; -fx-background-color: #434a54;" text="©Copyright programmed by heric jazz." textFill="WHITE" />
+      <JFXButton fx:id="goTest" buttonType="RAISED" layoutX="849.0" layoutY="457.0" onMouseClicked="#testDubboAction" prefHeight="40" prefWidth="100" style="-fx-font-size: 14px; -fx-background-color: WHITE; -fx-font-weight: bold;" text="GO" textFill="#f68b42" />
+
+   </children>
+
+</Pane>
