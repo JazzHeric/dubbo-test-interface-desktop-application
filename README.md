@@ -5,4 +5,5 @@ Swing编写的dubbo接口测试桌面应用程序
 创建项目 为了方便打成桌面jar包  将依赖也commit
 
 # 2020年
+增加javaFx 桌面应用程序
 
