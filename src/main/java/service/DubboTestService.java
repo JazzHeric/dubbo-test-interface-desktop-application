@@ -72,10 +72,8 @@ public class DubboTestService {
 			String paramValue = requestParams.get(i).getParamValue();
 			if(paramValue.indexOf("{") > -1){
 				JSONObject originParamValue = JSON.parseObject(paramValue);
-				System.out.println(getGenericType(originParamType));
 				if(StringUtils.isNotEmpty(getGenericType(originParamType))) {
 					String genericTypeKey = getGenericTypeKey(originParamValue);
-					System.out.println(genericTypeKey);
 					JSONObject genericTypeValue = originParamValue.getJSONObject(genericTypeKey);
 					genericTypeValue.put("class", getGenericType(originParamType));
 				}
@@ -86,8 +84,6 @@ public class DubboTestService {
 				objectParams[i] = paramValue;
 			}
 		}
-		System.out.println(JSONArray.toJSONString(parameterTypes));
-		System.out.println(JSONArray.toJSONString(objectParams));
 		return genericService.$invoke(config.getMethodName(), parameterTypes, objectParams);
 	}
 
