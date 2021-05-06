@@ -6,12 +6,15 @@ import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.rpc.service.GenericService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import model.Config;
 import model.Parameters;
 import tools.StringUtils;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class DubboTestService {
 
@@ -64,19 +67,62 @@ public class DubboTestService {
 		String[] parameterTypes = new String[requestParams.size() - 1];
 		Object[] objectParams = new Object[requestParams.size() - 1];
 		for(int i = 0; i < requestParams.size() - 1; i++){
-			parameterTypes[i] = requestParams.get(i).getParamType();
+			String originParamType = requestParams.get(i).getParamType();
+			parameterTypes[i] = getParameterType(originParamType);
 			String paramValue = requestParams.get(i).getParamValue();
 			if(paramValue.indexOf("{") > -1){
-				objectParams[i] = JSON.parseObject(paramValue);
+				JSONObject originParamValue = JSON.parseObject(paramValue);
+				System.out.println(getGenericType(originParamType));
+				if(StringUtils.isNotEmpty(getGenericType(originParamType))) {
+					String genericTypeKey = getGenericTypeKey(originParamValue);
+					System.out.println(genericTypeKey);
+					JSONObject genericTypeValue = originParamValue.getJSONObject(genericTypeKey);
+					genericTypeValue.put("class", getGenericType(originParamType));
+				}
+				objectParams[i] = originParamValue;
 			} else if(paramValue.indexOf("[") > -1) {
 				objectParams[i] = JSON.parseArray(paramValue);
 			} else {
 				objectParams[i] = paramValue;
 			}
 		}
+		System.out.println(JSONArray.toJSONString(parameterTypes));
+		System.out.println(JSONArray.toJSONString(objectParams));
 		return genericService.$invoke(config.getMethodName(), parameterTypes, objectParams);
 	}
 
+	/**
+	 * 实际的类型
+	 */
+	private String getParameterType(String paramType) {
+		if(paramType.indexOf("<") > -1) {
+			return paramType.substring(0, paramType.indexOf("<"));
+		}
+		return paramType;
+	}
+
+
+	private String getGenericTypeKey(JSONObject mapData) {
+		Set<Map.Entry<String, Object>> entries = mapData.entrySet();
+		Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+		while (iterator.hasNext()){
+			Map.Entry<String, Object> next = iterator.next();
+			if(next.getValue() instanceof JSONObject) {
+				return next.getKey();
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 可能存在的泛型类
+	 */
+	private String getGenericType(String paramType) {
+		if(paramType.indexOf("<") > -1) {
+			return paramType.substring(paramType.indexOf("<") + 1, paramType.indexOf(">"));
+		}
+		return null;
+	}
 
 	/**
 	 * 获取泛化调用服务
@@ -95,7 +141,7 @@ public class DubboTestService {
 		ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
 		reference.setApplication(application);
 		reference.setInterface(config.getInterfaze());
-		reference.setTimeout(1000);
+		reference.setTimeout(10000);
 		reference.setProtocol("dubbo");
 		reference.setGeneric(true);
 		reference.setValidation("false");
@@ -107,5 +153,12 @@ public class DubboTestService {
 		}
 		GenericService genericService = reference.get();
 		return genericService;
+	}
+
+
+	public static void main(String[] args) {
+		/*String test = "{\"pageNum\":1,\"pageSize\":20,\"queryParameter\":{\"ownerUserId\":\"12\",\"authUserId\":\"89\",\"filterBeginTime\":\"2020-10-10\",\"filterEndTime\":\"2020-12-30\",\"storeIdList\":[\"202011081000\",\"202011081001\"]}}";
+		JSONObject jsonObject = JSON.parseObject(test);
+		System.out.println(getGenericTypeKey(jsonObject));*/
 	}
 }
