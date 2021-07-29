@@ -1,5 +1,6 @@
 package service;
 
+import com.alibaba.dubbo.common.utils.PojoUtils;
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ReferenceConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
@@ -11,6 +12,8 @@ import model.Config;
 import model.Parameters;
 import tools.StringUtils;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +71,7 @@ public class DubboTestService {
 		Object[] objectParams = new Object[requestParams.size() - 1];
 		for(int i = 0; i < requestParams.size() - 1; i++){
 			String originParamType = requestParams.get(i).getParamType();
-			parameterTypes[i] = getParameterType(originParamType);
+			parameterTypes[i] = this.getParameterType(originParamType);
 			String paramValue = requestParams.get(i).getParamValue();
 			if(paramValue.indexOf("{") > -1){
 				JSONObject originParamValue = JSON.parseObject(paramValue);
@@ -97,7 +100,9 @@ public class DubboTestService {
 		return paramType;
 	}
 
-
+	/**
+	 * 获取泛型类的参数key
+	 */
 	private String getGenericTypeKey(JSONObject mapData) {
 		Set<Map.Entry<String, Object>> entries = mapData.entrySet();
 		Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
@@ -137,7 +142,7 @@ public class DubboTestService {
 		ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
 		reference.setApplication(application);
 		reference.setInterface(config.getInterfaze());
-		reference.setTimeout(10000);
+		reference.setTimeout(100000);
 		reference.setProtocol("dubbo");
 		reference.setGeneric(true);
 		reference.setValidation("false");
@@ -156,5 +161,33 @@ public class DubboTestService {
 		/*String test = "{\"pageNum\":1,\"pageSize\":20,\"queryParameter\":{\"ownerUserId\":\"12\",\"authUserId\":\"89\",\"filterBeginTime\":\"2020-10-10\",\"filterEndTime\":\"2020-12-30\",\"storeIdList\":[\"202011081000\",\"202011081001\"]}}";
 		JSONObject jsonObject = JSON.parseObject(test);
 		System.out.println(getGenericTypeKey(jsonObject));*/
+		User user = new User();
+		user.setGender(0);
+		user.setName("AA");
+		PageReq<User> pageReq = new PageReq<>();
+		pageReq.setPageNum(1);
+		pageReq.setPageSize(10);
+		pageReq.setQueryParam(user);
+		Object generalize = PojoUtils.generalize(pageReq);
+		System.out.println(generalize);
+
+
+		String test = "{\"pageSize\":10,\"pageNum\":1,\"queryParam\":{\"name\":\"NN\",\"gender\":0}}";
+		JSONObject jsonObject = JSON.parseObject(test);
+
+
+		Class interfaceClazz  = TestGenericService.class;
+
+		try {
+			Method method = interfaceClazz.getDeclaredMethod("genericParam",PageReq.class);
+			for (Type genericParameterType : method.getGenericParameterTypes()) {
+				System.out.println(genericParameterType.getTypeName());
+			}
+
+			System.out.println(method.getReturnType().getName());
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		}
+
 	}
 }
